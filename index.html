@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Inventory</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .edit-icon {
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .red-dot {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h1>Book Inventory</h1>
+
+    <!-- Add Book Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Add Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addBookForm">
+                        <div class="mb-3">
+                            <label for="bookTitle" class="form-label">Book Title</label>
+                            <select id="bookTitle" class="form-select" required>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Elementary">Elementary</option>
+                                <option value="Pre-Intermediate">Pre-Intermediate</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Kids Level 1">Kids Level 1</option>
+                                <option value="Kids Level 2">Kids Level 2</option>
+                                <option value="Kids Level 3">Kids Level 3</option>
+                                <option value="Kids Level 4">Kids Level 4</option>
+                                <option value="Kids Level 5">Kids Level 5</option>
+                                <option value="Kids Level 6">Kids Level 6</option>
+                                <option value="Kids High Level 1">Kids High Level 1</option>
+                                <option value="Kids High Level 2">Kids High Level 2</option>
+                                <option value="Listening Beginner">Listening Beginner</option>
+                                <option value="Listening Elementary">Listening Elementary</option>
+                                <option value="Listening Pre-Intermediate">Listening Pre-Intermediate</option>
+                                <option value="Listening Intermediate">Listening Intermediate</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" required>
+                        </div>
+                        <button type="button" id="addBookBtn" class="btn btn-primary">Add Book</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sell Book Modal -->
+    <div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="sellModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sellModalLabel">Sell Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="sellBookForm">
+                        <div class="mb-3">
+                            <label for="sellBookTitle" class="form-label">Book Title</label>
+                            <select id="sellBookTitle" class="form-select" required>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Elementary">Elementary</option>
+                                <option value="Pre-Intermediate">Pre-Intermediate</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Kids Level 1">Kids Level 1</option>
+                                <option value="Kids Level 2">Kids Level 2</option>
+                                <option value="Kids Level 3">Kids Level 3</option>
+                                <option value="Kids Level 4">Kids Level 4</option>
+                                <option value="Kids Level 5">Kids Level 5</option>
+                                <option value="Kids Level 6">Kids Level 6</option>
+                                <option value="Kids High Level 1">Kids High Level 1</option>
+                                <option value="Kids High Level 2">Kids High Level 2</option>
+                                <option value="Listening Beginner">Listening Beginner</option>
+                                <option value="Listening Elementary">Listening Elementary</option>
+                                <option value="Listening Pre-Intermediate">Listening Pre-Intermediate</option>
+                                <option value="Listening Intermediate">Listening Intermediate</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sellQuantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="sellQuantity" required>
+                        </div>
+                        <button type="button" id="sellBookBtn" class="btn btn-primary">Sell Book</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Add Book</button>
+    <button class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#sellModal">Sell Book</button>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <h2>Current Inventory</h2>
+            <table id="inventoryTable" class="table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price (UZS)</th>
+                    <th>Quantity</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <h2>Today's Statistics</h2>
+            <table id="statsTable" class="table">
+                <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Book</th>
+                    <th>Quantity</th>
+                    <th>Total (UZS)</th>
+                    <th>Timestamp</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <h2>Filter by Date</h2>
+        <input type="date" id="filterDate" class="form-control">
+        <button id="filterButton" class="btn btn-secondary mt-2">Filter</button>
+    </div>
+
+    <button class="btn btn-success" id="exportInventoryBtn">Export Current Inventory</button>
+    <button class="btn btn-info" id="exportStatsBtn">Export Today's Statistics</button>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</html>
